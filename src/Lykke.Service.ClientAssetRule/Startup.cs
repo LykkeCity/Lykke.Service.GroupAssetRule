@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
+using AutoMapper;
 using AzureStorage.Tables;
 using Common.Log;
 using Lykke.Common.ApiLibrary.Middleware;
@@ -51,6 +52,8 @@ namespace Lykke.Service.ClientAssetRule
                 {
                     options.DefaultLykkeConfiguration("v1", "ClientAssetRule API");
                 });
+
+                Mapper.Initialize(x => x.AddProfiles(GetType().Assembly));
 
                 var builder = new ContainerBuilder();
                 var appSettings = Configuration.LoadSettings<AppSettings>();
@@ -169,7 +172,7 @@ namespace Lykke.Service.ClientAssetRule
                 QueueName = settings.CurrentValue.SlackNotifications.AzureQueue.QueueName
             }, aggregateLogger);
 
-            var dbLogConnectionStringManager = settings.Nested(x => x.ClientAssetRuleService.Db.LogsConnString);
+            var dbLogConnectionStringManager = settings.Nested(x => x.ClientAssetRuleService.Db.LogsConnectionString);
             var dbLogConnectionString = dbLogConnectionStringManager.CurrentValue;
 
             // Creating azure storage logger, which logs own messages to concole log

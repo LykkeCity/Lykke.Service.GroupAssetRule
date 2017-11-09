@@ -1,6 +1,9 @@
 ﻿using Autofac;
 using Autofac.Extensions.DependencyInjection;
+using AzureStorage.Tables;
 using Common.Log;
+using Lykke.Service.ClientAssetRule.AzureRepositories;
+using Lykke.Service.ClientAssetRule.Core.Repositories;
 using Lykke.Service.ClientAssetRule.Core.Services;
 using Lykke.Service.ClientAssetRule.Core.Settings.ServiceSettings;
 using Lykke.Service.ClientAssetRule.Services;
@@ -46,9 +49,26 @@ namespace Lykke.Service.ClientAssetRule.Modules
             builder.RegisterType<ShutdownManager>()
                 .As<IShutdownManager>();
 
-            // TODO: Add your dependencies here
+            RegisterRepositories(builder);
+            RegisterServices(builder);
 
             builder.Populate(_services);
+        }
+
+        private void RegisterRepositories(ContainerBuilder builder)
+        {
+            const string tableName = "ClientAssetRule";
+
+            builder.Register(c => new RuleRepository(
+                    AzureTableStorage<RuleEntity>.Create(_settings.ConnectionString(x => x.Db.DataConnectionString),
+                        tableName, _log)))
+                .As<IRuleRepository>();
+        }
+
+        private void RegisterServices(ContainerBuilder builder)
+        {
+            builder.RegisterType<RuleService>()
+                .As<IRuleService>();
         }
     }
 }
