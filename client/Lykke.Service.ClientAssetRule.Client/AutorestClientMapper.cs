@@ -14,7 +14,7 @@ namespace Lykke.Service.ClientAssetRule.Client
                 Name = model.Name,
                 RegulationId = model.RegulationId,
                 AllowedAssetGroups = model.AllowedAssetGroups.ToList(),
-                DeclinedAssetGroups = model.AllowedAssetGroups.ToList()
+                DeclinedAssetGroups = model.DeclinedAssetGroups.ToList()
             };
         }
     }
