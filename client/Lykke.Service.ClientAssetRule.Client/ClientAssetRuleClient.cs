@@ -43,7 +43,7 @@ namespace Lykke.Service.ClientAssetRule.Client
         /// <param name="ruleId">The rule id.</param>
         /// <returns></returns>
         /// <exception cref="ErrorResponseException">Thrown if an error response received from service.</exception>
-        public async Task<RuleModel> GetRuleById(string ruleId)
+        public async Task<RuleModel> GetRuleByIdAsync(string ruleId)
         {
             object result = await _service.GetRuleByIdAsync(ruleId);
 
