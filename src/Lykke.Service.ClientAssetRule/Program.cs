@@ -21,9 +21,7 @@ namespace Lykke.Service.ClientAssetRule
             {
                 var host = new WebHostBuilder()
                     .UseKestrel()
-#if !DEBUG
                     .UseUrls("http://*:5000")
-#endif
                     .UseContentRoot(Directory.GetCurrentDirectory())
                     .UseStartup<Startup>()
                     .UseApplicationInsights()
