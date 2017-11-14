@@ -7,6 +7,7 @@ namespace Lykke.Service.ClientAssetRule.Core.Services
     public interface IRuleService
     {
         Task<IEnumerable<IRule>> GetAllAsync();
+        Task<IAssetGroups> GetAssetGroupsAsync(IEnumerable<IClientRegulation> clientRegulations);
         Task<IRule> GetByIdAsync(string id);
         Task InsertAsync(IRule rule);
         Task UpdateAsync(IRule rule);

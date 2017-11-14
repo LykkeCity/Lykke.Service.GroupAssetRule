@@ -22,6 +22,36 @@ namespace Lykke.Service.ClientAssetRule.Services
             return _ruleRepository.GetAllAsync();
         }
 
+        public async Task<IAssetGroups> GetAssetGroupsAsync(IEnumerable<IClientRegulation> clientRegulations)
+        {
+            var allowed = new List<string>();
+            var declined = new List<string>();
+
+            foreach (IClientRegulation clientRegulation in clientRegulations)
+            {
+                IEnumerable<IRule> rules = await _ruleRepository.GetByRegulationIdAsync(clientRegulation.RegulationId);
+
+                foreach (IRule rule in rules)
+                {
+                    allowed.AddRange(rule.AllowedAssetGroups);
+                    declined.AddRange(rule.DeclinedAssetGroups);
+                }
+            }
+
+            declined = declined.Distinct()
+                .ToList();
+
+            allowed = allowed.Distinct()
+                .Except(declined)
+                .ToList();
+
+            return new AssetGroups
+            {
+                Allowed = allowed,
+                Declined = declined
+            };
+        }
+
         public  Task<IRule> GetByIdAsync(string id)
         {
             return _ruleRepository.GetByIdAsync(id);

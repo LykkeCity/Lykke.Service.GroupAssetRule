@@ -32,9 +32,6 @@ namespace Lykke.Service.ClientAssetRule.Modules
 
             builder.RegisterType<RuleService>()
                 .As<IRuleService>();
-
-            builder.RegisterType<ClientAssetService>()
-                .As<IClientAssetService>();
         }
     }
 }
