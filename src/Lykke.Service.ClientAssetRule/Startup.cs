@@ -54,6 +54,7 @@ namespace Lykke.Service.ClientAssetRule
                 });
 
                 Mapper.Initialize(x => x.AddProfiles(GetType().Assembly));
+                Mapper.Configuration.AssertConfigurationIsValid();
 
                 var builder = new ContainerBuilder();
                 var appSettings = Configuration.LoadSettings<AppSettings>();
