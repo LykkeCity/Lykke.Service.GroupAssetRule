@@ -9,7 +9,8 @@ namespace Lykke.Service.ClientAssetRule.AutoMapper
         public DefaultProfile()
         {
             CreateMap<RuleModel, Rule>();
-            CreateMap<NewRuleModel, Rule>();
+            CreateMap<NewRuleModel, Rule>()
+                .ForMember(e => e.Id, option => option.Ignore());
             CreateMap<IRule, RuleModel>();
         }
 
