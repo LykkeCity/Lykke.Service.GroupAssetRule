@@ -10,7 +10,7 @@ using Lykke.Service.ClientAssetRule.Core.Services;
 using Lykke.Service.ClientAssetRule.Extensions;
 using Lykke.Service.ClientAssetRule.Models;
 using Microsoft.AspNetCore.Mvc;
-using Swashbuckle.SwaggerGen.Annotations;
+using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace Lykke.Service.ClientAssetRule.Controllers
 {
