@@ -1,4 +1,5 @@
 ﻿
+using System.Collections.Generic;
 using System.Linq;
 using Lykke.Service.ClientAssetRule.Client.Models;
 
@@ -13,8 +14,8 @@ namespace Lykke.Service.ClientAssetRule.Client
                 Id = model.Id,
                 Name = model.Name,
                 RegulationId = model.RegulationId,
-                AllowedAssetGroups = model.AllowedAssetGroups.ToList(),
-                DeclinedAssetGroups = model.DeclinedAssetGroups.ToList()
+                AllowedAssetGroups = model.AllowedAssetGroups?.ToList() ?? new List<string>(),
+                DeclinedAssetGroups = model.DeclinedAssetGroups?.ToList() ?? new List<string>()
             };
         }
     }
