@@ -8,7 +8,7 @@ namespace Lykke.Service.ClientAssetRule.Models
 {
     public class ErrorResponse
     {
-        public string ErrorMessage { get; }
+        public string ErrorMessage { get; private set; }
 
         public Dictionary<string, List<string>> ModelErrors { get; }
 
@@ -60,6 +60,13 @@ namespace Lykke.Service.ClientAssetRule.Models
         public static ErrorResponse Create()
         {
             return new ErrorResponse();
+        }
+
+        public static ErrorResponse Create(string message, ModelStateDictionary modelState)
+        {
+            ErrorResponse response = Create(modelState);
+            response.ErrorMessage = message;
+            return response;
         }
 
         public static ErrorResponse Create(ModelStateDictionary modelState)

@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
+using AutoMapper;
 using AzureStorage.Tables;
 using Common.Log;
 using Lykke.Common.ApiLibrary.Middleware;
@@ -52,11 +53,18 @@ namespace Lykke.Service.ClientAssetRule
                     options.DefaultLykkeConfiguration("v1", "ClientAssetRule API");
                 });
 
+                Mapper.Initialize(x => x.AddProfiles(GetType().Assembly));
+                Mapper.Configuration.AssertConfigurationIsValid();
+
                 var builder = new ContainerBuilder();
                 var appSettings = Configuration.LoadSettings<AppSettings>();
                 Log = CreateLogWithSlack(services, appSettings);
 
-                builder.RegisterModule(new ServiceModule(appSettings.Nested(x => x.ClientAssetRuleService), Log));
+                builder.RegisterModule(new ApiModule(appSettings.CurrentValue.AssetsServiceClient));
+                builder.RegisterModule(new RepositoriesModule(appSettings.ConnectionString(o => o.ClientAssetRuleService.Db.DataConnectionString), Log));
+                builder.RegisterModule(new ServiceModule(Log));
+                builder.RegisterModule(new RabbitModule(appSettings.CurrentValue.ClientAssetRuleService.RabbitMq));
+
                 builder.Populate(services);
                 ApplicationContainer = builder.Build();
 
@@ -104,7 +112,7 @@ namespace Lykke.Service.ClientAssetRule
 
                 await ApplicationContainer.Resolve<IStartupManager>().StartAsync();
 
-                await Log.WriteMonitorAsync("", "", "Started");
+                await Log.WriteMonitorAsync("", $"Env: {Program.EnvInfo}", "Started");
             }
             catch (Exception ex)
             {
@@ -139,7 +147,7 @@ namespace Lykke.Service.ClientAssetRule
                 
                 if (Log != null)
                 {
-                    await Log.WriteMonitorAsync("", "", "Terminating");
+                    await Log.WriteMonitorAsync("", $"Env: {Program.EnvInfo}", "Terminating");
                 }
                 
                 ApplicationContainer.Dispose();
@@ -169,7 +177,7 @@ namespace Lykke.Service.ClientAssetRule
                 QueueName = settings.CurrentValue.SlackNotifications.AzureQueue.QueueName
             }, aggregateLogger);
 
-            var dbLogConnectionStringManager = settings.Nested(x => x.ClientAssetRuleService.Db.LogsConnString);
+            var dbLogConnectionStringManager = settings.Nested(x => x.ClientAssetRuleService.Db.LogsConnectionString);
             var dbLogConnectionString = dbLogConnectionStringManager.CurrentValue;
 
             // Creating azure storage logger, which logs own messages to concole log
