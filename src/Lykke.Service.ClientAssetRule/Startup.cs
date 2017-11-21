@@ -17,6 +17,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Swashbuckle.AspNetCore.Swagger;
 
 namespace Lykke.Service.ClientAssetRule
 {
@@ -48,9 +49,20 @@ namespace Lykke.Service.ClientAssetRule
                             new Newtonsoft.Json.Serialization.DefaultContractResolver();
                     });
 
+
                 services.AddSwaggerGen(options =>
                 {
-                    options.DefaultLykkeConfiguration("v1", "ClientAssetRule API");
+                    options.SwaggerDoc(
+                        "v1",
+                        new Info
+                        {
+                            Version = "v1",
+                            Title = "ClientAssetRule API"
+                        });
+
+                    options.DescribeAllEnumsAsStrings();
+                    options.EnableXmsEnumExtension();
+                    options.EnableXmlDocumentation();
                 });
 
                 Mapper.Initialize(x => x.AddProfiles(GetType().Assembly));
@@ -90,7 +102,11 @@ namespace Lykke.Service.ClientAssetRule
 
                 app.UseMvc();
                 app.UseSwagger();
-                app.UseSwaggerUi();
+                app.UseSwaggerUI(x =>
+                {
+                    x.RoutePrefix = "swagger/ui";
+                    x.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
+                });
                 app.UseStaticFiles();
 
                 appLifetime.ApplicationStarted.Register(() => StartApplication().Wait());
