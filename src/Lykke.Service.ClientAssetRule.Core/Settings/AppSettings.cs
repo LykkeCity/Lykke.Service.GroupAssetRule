@@ -8,6 +8,6 @@ namespace Lykke.Service.ClientAssetRule.Core.Settings
     {
         public ClientAssetRuleSettings ClientAssetRuleService { get; set; }
         public SlackNotificationsSettings SlackNotifications { get; set; }
-        public AssetsServiceClient AssetsServiceClient { get; set; }
+        public AssetsServiceClient Assets { get; set; }
     }
 }
