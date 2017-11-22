@@ -72,7 +72,7 @@ namespace Lykke.Service.ClientAssetRule
                 var appSettings = Configuration.LoadSettings<AppSettings>();
                 Log = CreateLogWithSlack(services, appSettings);
 
-                builder.RegisterModule(new ApiModule(appSettings.CurrentValue.AssetsServiceClient));
+                builder.RegisterModule(new ApiModule(appSettings.CurrentValue.Assets));
                 builder.RegisterModule(new RepositoriesModule(appSettings.ConnectionString(o => o.ClientAssetRuleService.Db.DataConnectionString), Log));
                 builder.RegisterModule(new ServiceModule(Log));
                 builder.RegisterModule(new RabbitModule(appSettings.CurrentValue.ClientAssetRuleService.RabbitMq));
