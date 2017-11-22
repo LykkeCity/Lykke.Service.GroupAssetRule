@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
+using AutoMapper;
 using AzureStorage.Tables;
 using Common.Log;
 using Lykke.Common.ApiLibrary.Middleware;
@@ -16,6 +17,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Swashbuckle.AspNetCore.Swagger;
 
 namespace Lykke.Service.ClientAssetRule
 {
@@ -47,16 +49,34 @@ namespace Lykke.Service.ClientAssetRule
                             new Newtonsoft.Json.Serialization.DefaultContractResolver();
                     });
 
+
                 services.AddSwaggerGen(options =>
                 {
-                    options.DefaultLykkeConfiguration("v1", "ClientAssetRule API");
+                    options.SwaggerDoc(
+                        "v1",
+                        new Info
+                        {
+                            Version = "v1",
+                            Title = "ClientAssetRule API"
+                        });
+
+                    options.DescribeAllEnumsAsStrings();
+                    options.EnableXmsEnumExtension();
+                    options.EnableXmlDocumentation();
                 });
+
+                Mapper.Initialize(x => x.AddProfiles(GetType().Assembly));
+                Mapper.Configuration.AssertConfigurationIsValid();
 
                 var builder = new ContainerBuilder();
                 var appSettings = Configuration.LoadSettings<AppSettings>();
                 Log = CreateLogWithSlack(services, appSettings);
 
-                builder.RegisterModule(new ServiceModule(appSettings.Nested(x => x.ClientAssetRuleService), Log));
+                builder.RegisterModule(new ApiModule(appSettings.CurrentValue.AssetsServiceClient));
+                builder.RegisterModule(new RepositoriesModule(appSettings.ConnectionString(o => o.ClientAssetRuleService.Db.DataConnectionString), Log));
+                builder.RegisterModule(new ServiceModule(Log));
+                builder.RegisterModule(new RabbitModule(appSettings.CurrentValue.ClientAssetRuleService.RabbitMq));
+
                 builder.Populate(services);
                 ApplicationContainer = builder.Build();
 
@@ -82,7 +102,11 @@ namespace Lykke.Service.ClientAssetRule
 
                 app.UseMvc();
                 app.UseSwagger();
-                app.UseSwaggerUi();
+                app.UseSwaggerUI(x =>
+                {
+                    x.RoutePrefix = "swagger/ui";
+                    x.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
+                });
                 app.UseStaticFiles();
 
                 appLifetime.ApplicationStarted.Register(() => StartApplication().Wait());
@@ -104,7 +128,7 @@ namespace Lykke.Service.ClientAssetRule
 
                 await ApplicationContainer.Resolve<IStartupManager>().StartAsync();
 
-                await Log.WriteMonitorAsync("", "", "Started");
+                await Log.WriteMonitorAsync("", $"Env: {Program.EnvInfo}", "Started");
             }
             catch (Exception ex)
             {
@@ -139,7 +163,7 @@ namespace Lykke.Service.ClientAssetRule
                 
                 if (Log != null)
                 {
-                    await Log.WriteMonitorAsync("", "", "Terminating");
+                    await Log.WriteMonitorAsync("", $"Env: {Program.EnvInfo}", "Terminating");
                 }
                 
                 ApplicationContainer.Dispose();
@@ -169,7 +193,7 @@ namespace Lykke.Service.ClientAssetRule
                 QueueName = settings.CurrentValue.SlackNotifications.AzureQueue.QueueName
             }, aggregateLogger);
 
-            var dbLogConnectionStringManager = settings.Nested(x => x.ClientAssetRuleService.Db.LogsConnString);
+            var dbLogConnectionStringManager = settings.Nested(x => x.ClientAssetRuleService.Db.LogsConnectionString);
             var dbLogConnectionString = dbLogConnectionStringManager.CurrentValue;
 
             // Creating azure storage logger, which logs own messages to concole log

@@ -1,10 +1,9 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Net;
 using Lykke.Service.ClientAssetRule.Core.Services;
 using Lykke.Service.ClientAssetRule.Models;
 using Microsoft.AspNetCore.Mvc;
-using Swashbuckle.SwaggerGen.Annotations;
+using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace Lykke.Service.ClientAssetRule.Controllers
 {
@@ -42,7 +41,7 @@ namespace Lykke.Service.ClientAssetRule.Controllers
             {
                 Name = Microsoft.Extensions.PlatformAbstractions.PlatformServices.Default.Application.ApplicationName,
                 Version = Microsoft.Extensions.PlatformAbstractions.PlatformServices.Default.Application.ApplicationVersion,
-                Env = Environment.GetEnvironmentVariable("ENV_INFO"),
+                Env = Program.EnvInfo,
 #if DEBUG
                 IsDebug = true,
 #else

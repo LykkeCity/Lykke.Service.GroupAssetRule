@@ -1,4 +1,5 @@
-﻿using Lykke.Service.ClientAssetRule.Core.Settings.ServiceSettings;
+﻿using Lykke.Service.ClientAssetRule.Core.Settings.Clients;
+using Lykke.Service.ClientAssetRule.Core.Settings.ServiceSettings;
 using Lykke.Service.ClientAssetRule.Core.Settings.SlackNotifications;
 
 namespace Lykke.Service.ClientAssetRule.Core.Settings
@@ -7,5 +8,6 @@ namespace Lykke.Service.ClientAssetRule.Core.Settings
     {
         public ClientAssetRuleSettings ClientAssetRuleService { get; set; }
         public SlackNotificationsSettings SlackNotifications { get; set; }
+        public AssetsServiceClient AssetsServiceClient { get; set; }
     }
 }
