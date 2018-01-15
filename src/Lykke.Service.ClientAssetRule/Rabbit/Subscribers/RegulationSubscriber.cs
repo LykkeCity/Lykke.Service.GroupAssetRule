@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using Lykke.Service.Assets.Client;
 using Lykke.Service.ClientAssetRule.Core.Domain;
 using Lykke.Service.ClientAssetRule.Core.Services;
-using Lykke.Service.ClientAssetRule.Core.Settings.ServiceSettings;
+using Lykke.Service.ClientAssetRule.Settings.ServiceSettings.Rabbit;
 using Lykke.Service.ClientAssetRule.Rabbit.Messages;
 
 namespace Lykke.Service.ClientAssetRule.Rabbit.Subscribers

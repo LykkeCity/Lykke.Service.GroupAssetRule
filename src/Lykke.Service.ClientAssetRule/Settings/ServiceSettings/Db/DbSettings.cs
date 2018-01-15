@@ -1,4 +1,4 @@
-﻿namespace Lykke.Service.ClientAssetRule.Core.Settings.ServiceSettings
+﻿namespace Lykke.Service.ClientAssetRule.Settings.ServiceSettings.Db
 {
     public class DbSettings
     {

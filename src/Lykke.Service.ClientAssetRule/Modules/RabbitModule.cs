@@ -1,6 +1,6 @@
 ﻿using Autofac;
 using Common;
-using Lykke.Service.ClientAssetRule.Core.Settings.ServiceSettings;
+using Lykke.Service.ClientAssetRule.Settings.ServiceSettings.Rabbit;
 using Lykke.Service.ClientAssetRule.Rabbit.Subscribers;
 
 namespace Lykke.Service.ClientAssetRule.Modules
