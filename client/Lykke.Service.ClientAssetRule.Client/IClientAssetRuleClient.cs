@@ -43,5 +43,32 @@ namespace Lykke.Service.ClientAssetRule.Client
         /// </summary>
         /// <exception cref="ErrorResponseException">Thrown if an error response received from service.</exception>
         Task DeleteRuleAsync(string ruleId);
+
+        /// <summary>
+        /// Returns all asset condition layer rules.
+        /// </summary>
+        /// <returns>The list of asset condition layer rules.</returns>
+        Task<IEnumerable<AssetConditionLayerRuleModel>> GetAssetConditionLayerRulesAsync();
+
+        /// <summary>
+        /// Adds the asset condition layer rule.
+        /// </summary>
+        /// <param name="model">The model that describe an asset condition layer rule.</param>
+        /// <exception cref="ErrorResponseException">Thrown if an error response received from service.</exception>
+        Task AddAssetConditionLayerRuleAsync(AssetConditionLayerRuleModel model);
+
+        /// <summary>
+        /// Updates the asset condition layer rule.
+        /// </summary>
+        /// <param name="model">The model that describe an asset condition layer rule.</param>
+        /// <exception cref="ErrorResponseException">Thrown if an error response received from service.</exception>
+        Task UpdateAssetConditionLayerRuleAsync(AssetConditionLayerRuleModel model);
+
+        /// <summary>
+        /// Deletes the asset condition layer rule for regulation.
+        /// </summary>
+        /// <param name="regulationId">The regulation.</param>
+        /// <exception cref="ErrorResponseException">Thrown if an error response received from service.</exception>
+        Task DeleteAssetConditionLayerRuleAsync(string regulationId);
     }
 }

@@ -24,7 +24,7 @@ namespace Lykke.Service.ClientAssetRule.Client.AutorestClient.Models
         /// <summary>
         /// Initializes a new instance of the IsAliveResponse class.
         /// </summary>
-        public IsAliveResponse(bool isDebug, string name = default(string), string version = default(string), string env = default(string), IList<IssueIndicator> issueIndicators = default(IList<IssueIndicator>))
+        public IsAliveResponse(string name = default(string), string version = default(string), string env = default(string), bool? isDebug = default(bool?), IList<IssueIndicator> issueIndicators = default(IList<IssueIndicator>))
         {
             Name = name;
             Version = version;
@@ -57,21 +57,12 @@ namespace Lykke.Service.ClientAssetRule.Client.AutorestClient.Models
         /// <summary>
         /// </summary>
         [JsonProperty(PropertyName = "IsDebug")]
-        public bool IsDebug { get; set; }
+        public bool? IsDebug { get; set; }
 
         /// <summary>
         /// </summary>
         [JsonProperty(PropertyName = "IssueIndicators")]
         public IList<IssueIndicator> IssueIndicators { get; set; }
 
-        /// <summary>
-        /// Validate the object.
-        /// </summary>
-        /// <exception cref="Microsoft.Rest.ValidationException">
-        /// Thrown if validation fails
-        /// </exception>
-        public virtual void Validate()
-        {
-        }
     }
 }

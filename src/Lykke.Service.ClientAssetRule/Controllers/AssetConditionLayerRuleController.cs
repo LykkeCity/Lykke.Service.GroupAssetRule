@@ -35,7 +35,7 @@ namespace Lykke.Service.ClientAssetRule.Controllers
         /// <returns>The list of asset condition layer rules.</returns>
         /// <response code="200">The list of asset condition layer rules.</response>
         [HttpGet]
-        [SwaggerOperation("GetRules")]
+        [SwaggerOperation("AssetConditionLayerRuleGet")]
         [ProducesResponseType(typeof(IEnumerable<AssetConditionLayerRuleModel>), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> GetAll()
         {
