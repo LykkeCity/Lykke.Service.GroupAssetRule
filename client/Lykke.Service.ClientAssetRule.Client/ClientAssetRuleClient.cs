@@ -6,6 +6,7 @@ using Lykke.Service.ClientAssetRule.Client.AutorestClient;
 using Lykke.Service.ClientAssetRule.Client.AutorestClient.Models;
 using Lykke.Service.ClientAssetRule.Client.Exceptions;
 using RuleModel = Lykke.Service.ClientAssetRule.Client.Models.RuleModel;
+using AssetConditionLayerRuleModel = Lykke.Service.ClientAssetRule.Client.Models.AssetConditionLayerRuleModel;
 
 namespace Lykke.Service.ClientAssetRule.Client
 {
@@ -31,8 +32,8 @@ namespace Lykke.Service.ClientAssetRule.Client
         /// <returns>The list of rules.</returns>
         public async Task<IEnumerable<RuleModel>> GetRulesAsync()
         {
-            IEnumerable<AutorestClient.Models.RuleModel> rules =
-                await _service.GetRulesAsync();
+            IEnumerable<AutorestClient.Models.AssetGroupRuleModel> rules =
+                await _service.AssetGroupRuleGetAsync();
 
             return rules.Select(AutorestClientMapper.ToModel);
         }
@@ -45,9 +46,9 @@ namespace Lykke.Service.ClientAssetRule.Client
         /// <exception cref="ErrorResponseException">Thrown if an error response received from service.</exception>
         public async Task<RuleModel> GetRuleByIdAsync(string ruleId)
         {
-            object result = await _service.GetRuleByIdAsync(ruleId);
+            object result = await _service.AssetGroupRuleGetByIdAsync(ruleId);
 
-            if (result is AutorestClient.Models.RuleModel ruleModel)
+            if (result is AutorestClient.Models.AssetGroupRuleModel ruleModel)
                 return ruleModel.ToModel();
 
             if (result is ErrorResponse errorResponse)
@@ -63,7 +64,7 @@ namespace Lykke.Service.ClientAssetRule.Client
         /// <exception cref="ErrorResponseException">Thrown if an error response received from service.</exception>
         public async Task AddRuleAsync(RuleModel model)
         {
-            ErrorResponse errorResponse = await _service.AddRuleAsync(new NewRuleModel
+            ErrorResponse errorResponse = await _service.AssetGroupRuleAddAsync(new NewAssetGroupRuleModel
             {
                 Name = model.Name,
                 RegulationId = model.RegulationId,
@@ -82,7 +83,7 @@ namespace Lykke.Service.ClientAssetRule.Client
         /// <exception cref="ErrorResponseException">Thrown if an error response received from service.</exception>
         public async Task UpdateRuleAsync(RuleModel model)
         {
-            ErrorResponse errorResponse = await _service.UpdateRuleAsync(new AutorestClient.Models.RuleModel
+            ErrorResponse errorResponse = await _service.AssetGroupRuleUpdateAsync(new AutorestClient.Models.AssetGroupRuleModel
             {
                 Id = model.Id,
                 Name = model.Name,
@@ -101,7 +102,68 @@ namespace Lykke.Service.ClientAssetRule.Client
         /// <exception cref="ErrorResponseException">Thrown if an error response received from service.</exception>
         public async Task DeleteRuleAsync(string ruleId)
         {
-            ErrorResponse errorResponse = await _service.DeleteRuleAsync(ruleId);
+            ErrorResponse errorResponse = await _service.AssetGroupRuleDeleteAsync(ruleId);
+
+            if (errorResponse != null)
+                throw new ErrorResponseException(errorResponse.ErrorMessage);
+        }
+
+        /// <summary>
+        /// Returns all asset condition layer rules.
+        /// </summary>
+        /// <returns>The list of asset condition layer rules.</returns>
+        public async Task<IEnumerable<AssetConditionLayerRuleModel>> GetAssetConditionLayerRulesAsync()
+        {
+            IEnumerable<AutorestClient.Models.AssetConditionLayerRuleModel> rules =
+                await _service.AssetConditionLayerRuleGetAsync();
+
+            return rules.Select(AutorestClientMapper.ToModel);
+        }
+
+        /// <summary>
+        /// Adds the asset condition layer rule.
+        /// </summary>
+        /// <param name="model">The model that describe an asset condition layer rule.</param>
+        /// <exception cref="ErrorResponseException">Thrown if an error response received from service.</exception>
+        public async Task AddAssetConditionLayerRuleAsync(AssetConditionLayerRuleModel model)
+        {
+            ErrorResponse errorResponse = await _service.AssetConditionLayerRuleAddAsync(new AutorestClient.Models.AssetConditionLayerRuleModel
+            {
+                Name = model.Name,
+                RegulationId = model.RegulationId,
+                Layers = model.Layers
+            });
+
+            if (errorResponse != null)
+                throw new ErrorResponseException(errorResponse.ErrorMessage);
+        }
+
+        /// <summary>
+        /// Updates the asset condition layer rule.
+        /// </summary>
+        /// <param name="model">The model that describe an asset condition layer rule.</param>
+        /// <exception cref="ErrorResponseException">Thrown if an error response received from service.</exception>
+        public async Task UpdateAssetConditionLayerRuleAsync(AssetConditionLayerRuleModel model)
+        {
+            ErrorResponse errorResponse = await _service.AssetConditionLayerRuleUpdateAsync(new AutorestClient.Models.AssetConditionLayerRuleModel
+            {
+                Name = model.Name,
+                RegulationId = model.RegulationId,
+                Layers = model.Layers
+            });
+
+            if (errorResponse != null)
+                throw new ErrorResponseException(errorResponse.ErrorMessage);
+        }
+
+        /// <summary>
+        /// Deletes the asset condition layer rule for regulation.
+        /// </summary>
+        /// <param name="regulationId">The regulation.</param>
+        /// <exception cref="ErrorResponseException">Thrown if an error response received from service.</exception>
+        public async Task DeleteAssetConditionLayerRuleAsync(string regulationId)
+        {
+            ErrorResponse errorResponse = await _service.AssetConditionLayerRuleDeleteAsync(regulationId);
 
             if (errorResponse != null)
                 throw new ErrorResponseException(errorResponse.ErrorMessage);
