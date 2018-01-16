@@ -1,8 +1,8 @@
 ﻿using Microsoft.WindowsAzure.Storage.Table;
 
-namespace Lykke.Service.ClientAssetRule.AzureRepositories
+namespace Lykke.Service.ClientAssetRule.AzureRepositories.AssetGroup
 {
-    public class RuleEntity : TableEntity
+    public class AssetGroupRuleEntity : TableEntity
     {
         public string Name { get; set; }
 

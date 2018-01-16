@@ -1,10 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace Lykke.Service.ClientAssetRule.Models
+namespace Lykke.Service.ClientAssetRule.Models.AssetGroupRule
 {
-    public class NewRuleModel
+    public class AssetGroupRuleModel
     {
+        [Required]
+        public string Id { get; set; }
+
         [Required]
         public string Name { get; set; }
 

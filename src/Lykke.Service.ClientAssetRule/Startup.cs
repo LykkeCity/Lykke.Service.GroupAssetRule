@@ -10,7 +10,6 @@ using Lykke.Common.ApiLibrary.Swagger;
 using Lykke.Logs;
 using Lykke.Service.ClientAssetRule.Core.Services;
 using Lykke.Service.ClientAssetRule.Settings;
-using Lykke.Service.ClientAssetRule.Modules;
 using Lykke.SettingsReader;
 using Lykke.SlackNotification.AzureQueue;
 using Microsoft.AspNetCore.Builder;
@@ -49,7 +48,6 @@ namespace Lykke.Service.ClientAssetRule
                             new Newtonsoft.Json.Serialization.DefaultContractResolver();
                     });
 
-
                 services.AddSwaggerGen(options =>
                 {
                     options.SwaggerDoc(
@@ -65,17 +63,21 @@ namespace Lykke.Service.ClientAssetRule
                     options.EnableXmlDocumentation();
                 });
 
-                Mapper.Initialize(x => x.AddProfiles(GetType().Assembly));
+                Mapper.Initialize(cfg =>
+                {
+                    cfg.AddProfile<AutoMapperProfile>();
+                    cfg.AddProfile<AzureRepositories.AutoMapperProfile>();
+                });
                 Mapper.Configuration.AssertConfigurationIsValid();
 
                 var builder = new ContainerBuilder();
                 var appSettings = Configuration.LoadSettings<AppSettings>();
                 Log = CreateLogWithSlack(services, appSettings);
 
-                builder.RegisterModule(new ApiModule(appSettings.CurrentValue.AssetsServiceClient));
-                builder.RegisterModule(new RepositoriesModule(appSettings.ConnectionString(o => o.ClientAssetRuleService.Db.DataConnectionString), Log));
-                builder.RegisterModule(new ServiceModule(Log));
-                builder.RegisterModule(new RabbitModule(appSettings.CurrentValue.ClientAssetRuleService.RabbitMq));
+                builder.RegisterModule(new AutofacModule(appSettings.CurrentValue, Log));
+                builder.RegisterModule(new Services.AutofacModule());
+                builder.RegisterModule(new AzureRepositories.AutofacModule(
+                    appSettings.Nested(o => o.ClientAssetRuleService.Db.DataConnectionString), Log));
 
                 builder.Populate(services);
                 ApplicationContainer = builder.Build();

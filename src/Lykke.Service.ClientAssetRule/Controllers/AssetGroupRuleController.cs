@@ -5,88 +5,89 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Common;
 using Common.Log;
-using Lykke.Service.ClientAssetRule.Core.Domain;
+using Lykke.Common.Extensions;
+using Lykke.Service.ClientAssetRule.Core.Domain.AssetGroup;
 using Lykke.Service.ClientAssetRule.Core.Services;
-using Lykke.Service.ClientAssetRule.Extensions;
 using Lykke.Service.ClientAssetRule.Models;
+using Lykke.Service.ClientAssetRule.Models.AssetGroupRule;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace Lykke.Service.ClientAssetRule.Controllers
 {
     [Route("api/[controller]")]
-    public class RuleController : Controller
+    public class AssetGroupRuleController : Controller
     {
-        private readonly IRuleService _ruleService;
+        private readonly IAssetGroupRuleService _ruleService;
         private readonly ILog _log;
 
-        public RuleController(IRuleService ruleService, ILog log)
+        public AssetGroupRuleController(IAssetGroupRuleService ruleService, ILog log)
         {
             _ruleService = ruleService;
             _log = log;
         }
 
         /// <summary>
-        /// Returns all client asset ruls.
+        /// Returns all asset group rules.
         /// </summary>
-        /// <returns>The list of rules.</returns>
-        /// <response code="200">The list of rules.</response>
+        /// <returns>The list of asset group rules.</returns>
+        /// <response code="200">The list of asset group rules.</response>
         [HttpGet]
-        [SwaggerOperation("GetRules")]
-        [ProducesResponseType(typeof(IEnumerable<RuleModel>), (int)HttpStatusCode.OK)]
+        [SwaggerOperation("AssetGroupRuleGet")]
+        [ProducesResponseType(typeof(IEnumerable<AssetGroupRuleModel>), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> GetAll()
         {
-            IEnumerable<IRule> rules = await _ruleService.GetAllAsync();
+            IEnumerable<IAssetGroupRule> rules = await _ruleService.GetAllAsync();
 
-            var model = Mapper.Map<IEnumerable<IRule>, IEnumerable<RuleModel>>(rules);
+            var model = Mapper.Map<IEnumerable<IAssetGroupRule>, IEnumerable<AssetGroupRuleModel>>(rules);
 
             return Ok(model);
         }
 
         /// <summary>
-        /// Returns a client asset rule by specified id.
+        /// Returns an asset group rule by specified id.
         /// </summary>
-        /// <param name="ruleId">The rule id.</param>
-        /// <returns>The client asset rule if exists.</returns>
-        /// <response code="200">The client asset rule.</response>
+        /// <param name="ruleId">The asset group rule id.</param>
+        /// <returns>The asset group rule if exists.</returns>
+        /// <response code="200">The asset group rule.</response>
         /// <response code="400">Rule not found.</response>
         [HttpGet]
         [Route("{ruleId}")]
-        [SwaggerOperation("GetRuleById")]
-        [ProducesResponseType(typeof(RuleModel), (int)HttpStatusCode.OK)]
+        [SwaggerOperation("AssetGroupRuleGetById")]
+        [ProducesResponseType(typeof(AssetGroupRuleModel), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(ErrorResponse), (int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> Get(string ruleId)
         {
-            IRule rule = await _ruleService.GetByIdAsync(ruleId);
+            IAssetGroupRule rule = await _ruleService.GetByIdAsync(ruleId);
 
             if (rule == null)
             {
-                await _log.WriteWarningAsync(nameof(RuleController), nameof(Get),
-                    $"Rule not found. {nameof(ruleId)}: {ruleId}. IP: {HttpContext.GetIp()}");
-                return BadRequest(ErrorResponse.Create("Rule not found"));
+                await _log.WriteWarningAsync(nameof(AssetGroupRuleController), nameof(Get),
+                    $"Asset group rule not found. {nameof(ruleId)}: {ruleId}. IP: {HttpContext.GetIp()}");
+                return BadRequest(ErrorResponse.Create("Asset group rule not found"));
             }
 
-            var model = Mapper.Map<RuleModel>(rule);
+            var model = Mapper.Map<AssetGroupRuleModel>(rule);
 
             return Ok(model);
         }
 
         /// <summary>
-        /// Adds the rule.
+        /// Adds the asset group rule.
         /// </summary>
-        /// <param name="model">The model what describe a rule.</param>
+        /// <param name="model">The model that describe an asset group rule.</param>
         /// <response code="204">Rule successfully added.</response>
         /// <response code="400">An error occurred during adding.</response>
         [HttpPost]
-        [SwaggerOperation("AddRule")]
+        [SwaggerOperation("AssetGroupRuleAdd")]
         [ProducesResponseType((int)HttpStatusCode.NoContent)]
         [ProducesResponseType(typeof(ErrorResponse), (int)HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> Add([FromBody] NewRuleModel model)
+        public async Task<IActionResult> Add([FromBody] NewAssetGroupRuleModel model)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ErrorResponse.Create("Invalid model.", ModelState));
 
-            var rule = Mapper.Map<Rule>(model);
+            var rule = Mapper.Map<AssetGroupRule>(model);
 
             try
             {
@@ -94,34 +95,34 @@ namespace Lykke.Service.ClientAssetRule.Controllers
             }
             catch (Exception exception)
             {
-                await _log.WriteWarningAsync(nameof(RuleController), nameof(Add),
+                await _log.WriteWarningAsync(nameof(AssetGroupRuleController), nameof(Add),
                     $"{exception.Message}. {nameof(model)}: {model.ToJson()}. IP: {HttpContext.GetIp()}");
 
                 return BadRequest(ErrorResponse.Create(exception.Message));
             }
 
-            await _log.WriteInfoAsync(nameof(RuleController), nameof(Add),
-                $"Rule added. Model: {model.ToJson()}. IP: {HttpContext.GetIp()}");
+            await _log.WriteInfoAsync(nameof(AssetGroupRuleController), nameof(Add),
+                $"Asset group rule added. Model: {model.ToJson()}. IP: {HttpContext.GetIp()}");
 
             return NoContent();
         }
 
         /// <summary>
-        /// Updates the rule.
+        /// Updates the asset group rule.
         /// </summary>
-        /// <param name="model">The model what describe a rule.</param>
+        /// <param name="model">The model that describe an asset group rule.</param>
         /// <response code="204">Rule successfully updated.</response>
         /// <response code="400">An error occurred during updating.</response>
         [HttpPut]
-        [SwaggerOperation("UpdateRule")]
+        [SwaggerOperation("AssetGroupRuleUpdate")]
         [ProducesResponseType((int)HttpStatusCode.NoContent)]
         [ProducesResponseType(typeof(ErrorResponse), (int)HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> Update([FromBody] RuleModel model)
+        public async Task<IActionResult> Update([FromBody] AssetGroupRuleModel model)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ErrorResponse.Create("Invalid model.", ModelState));
 
-            var rule = Mapper.Map<Rule>(model);
+            var rule = Mapper.Map<AssetGroupRule>(model);
 
             try
             {
@@ -129,27 +130,27 @@ namespace Lykke.Service.ClientAssetRule.Controllers
             }
             catch (Exception exception)
             {
-                await _log.WriteWarningAsync(nameof(RuleController), nameof(Update),
+                await _log.WriteWarningAsync(nameof(AssetGroupRuleController), nameof(Update),
                     $"{exception.Message}. {nameof(model)}: {model.ToJson()}. IP: {HttpContext.GetIp()}");
 
                 return BadRequest(ErrorResponse.Create(exception.Message));
             }
 
-            await _log.WriteInfoAsync(nameof(RuleController), nameof(Update),
-                $"Rule updated. {nameof(model)}: {model.ToJson()}. IP: {HttpContext.GetIp()}");
+            await _log.WriteInfoAsync(nameof(AssetGroupRuleController), nameof(Update),
+                $"Asset group rule updated. {nameof(model)}: {model.ToJson()}. IP: {HttpContext.GetIp()}");
 
             return NoContent();
         }
 
         /// <summary>
-        /// Deletes the rule by specified id.
+        /// Deletes the asset group rule.
         /// </summary>
-        /// <param name="ruleId">The id of rule to delete.</param>
+        /// <param name="ruleId">The asset group rule id.</param>
         /// <response code="204">Rule successfully deleted.</response>
         /// <response code="400">An error occurred during deleting.</response>
         [HttpDelete]
         [Route("{ruleId}")]
-        [SwaggerOperation("DeleteRule")]
+        [SwaggerOperation("AssetGroupRuleDelete")]
         [ProducesResponseType((int)HttpStatusCode.NoContent)]
         [ProducesResponseType(typeof(ErrorResponse), (int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> Delete(string ruleId)
@@ -160,14 +161,14 @@ namespace Lykke.Service.ClientAssetRule.Controllers
             }
             catch (Exception exception)
             {
-                await _log.WriteWarningAsync(nameof(RuleController), nameof(Delete),
+                await _log.WriteWarningAsync(nameof(AssetGroupRuleController), nameof(Delete),
                     $"{exception.Message}. {nameof(ruleId)}: {ruleId}. IP: {HttpContext.GetIp()}");
 
                 return BadRequest(ErrorResponse.Create(exception.Message));
             }
 
-            await _log.WriteInfoAsync(nameof(RuleController), nameof(Delete),
-                $"Rule deleted. {nameof(ruleId)}: {ruleId}. IP: {HttpContext.GetIp()}");
+            await _log.WriteInfoAsync(nameof(AssetGroupRuleController), nameof(Delete),
+                $"Asset group rule deleted. {nameof(ruleId)}: {ruleId}. IP: {HttpContext.GetIp()}");
 
             return NoContent();
         }

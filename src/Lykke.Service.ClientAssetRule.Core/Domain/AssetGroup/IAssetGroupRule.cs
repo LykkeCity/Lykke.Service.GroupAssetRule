@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 
-namespace Lykke.Service.ClientAssetRule.Core.Domain
+namespace Lykke.Service.ClientAssetRule.Core.Domain.AssetGroup
 {
-    public interface IRule
+    public interface IAssetGroupRule
     {
         string Id { get; }
 

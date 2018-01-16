@@ -3,58 +3,58 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AzureStorage;
-using Lykke.Service.ClientAssetRule.Core.Domain;
+using Lykke.Service.ClientAssetRule.Core.Domain.AssetGroup;
 using Lykke.Service.ClientAssetRule.Core.Repositories;
 using Microsoft.WindowsAzure.Storage.Table;
 
-namespace Lykke.Service.ClientAssetRule.AzureRepositories
+namespace Lykke.Service.ClientAssetRule.AzureRepositories.AssetGroup
 {
-    public class RuleRepository : IRuleRepository
+    public class AssetGroupRuleRepository : IAssetGroupRuleRepository
     {
-        private readonly INoSQLTableStorage<RuleEntity> _storage;
+        private readonly INoSQLTableStorage<AssetGroupRuleEntity> _storage;
 
-        public RuleRepository(INoSQLTableStorage<RuleEntity> storage)
+        public AssetGroupRuleRepository(INoSQLTableStorage<AssetGroupRuleEntity> storage)
         {
             _storage = storage;
         }
 
-        public async Task<IEnumerable<IRule>> GetAllAsync()
+        public async Task<IEnumerable<IAssetGroupRule>> GetAllAsync()
         {
-            IEnumerable<RuleEntity> entities = await _storage.GetDataAsync(GetPartitionKey());
+            IEnumerable<AssetGroupRuleEntity> entities = await _storage.GetDataAsync(GetPartitionKey());
 
             return entities.Select(FromEntity);
         }
 
-        public async Task<IRule> GetByIdAsync(string id)
+        public async Task<IAssetGroupRule> GetByIdAsync(string id)
         {
-            RuleEntity entity = await _storage.GetDataAsync(GetPartitionKey(), id);
+            AssetGroupRuleEntity entity = await _storage.GetDataAsync(GetPartitionKey(), id);
 
             return entity != null ? FromEntity(entity) : null;
         }
 
-        public async Task<IEnumerable<IRule>> GetByRegulationIdAsync(string regulationId)
+        public async Task<IEnumerable<IAssetGroupRule>> GetByRegulationIdAsync(string regulationId)
         {
             string partitionKeyFilter = TableQuery
-                .GenerateFilterCondition(nameof(RuleEntity.PartitionKey), QueryComparisons.Equal, GetPartitionKey());
+                .GenerateFilterCondition(nameof(AssetGroupRuleEntity.PartitionKey), QueryComparisons.Equal, GetPartitionKey());
 
             string regulationIdFilter = TableQuery
-                .GenerateFilterCondition(nameof(RuleEntity.RegulationId), QueryComparisons.Equal, regulationId);
+                .GenerateFilterCondition(nameof(AssetGroupRuleEntity.RegulationId), QueryComparisons.Equal, regulationId);
 
             string filter = TableQuery.CombineFilters(partitionKeyFilter, TableOperators.And, regulationIdFilter);
 
-            var query = new TableQuery<RuleEntity>().Where(filter);
+            var query = new TableQuery<AssetGroupRuleEntity>().Where(filter);
 
-            IEnumerable<RuleEntity> entities = await _storage.WhereAsync(query);
+            IEnumerable<AssetGroupRuleEntity> entities = await _storage.WhereAsync(query);
 
             return entities.Select(FromEntity);
         }
 
-        public Task InsertAsync(IRule rule)
+        public Task InsertAsync(IAssetGroupRule rule)
         {
             return _storage.InsertAsync(CreateEntity(rule));
         }
 
-        public Task UpdateAsync(IRule rule)
+        public Task UpdateAsync(IAssetGroupRule rule)
         {
             return _storage.MergeAsync(GetPartitionKey(), rule.Id, entity =>
             {
@@ -77,8 +77,8 @@ namespace Lykke.Service.ClientAssetRule.AzureRepositories
         private static string GetRowKey()
             => Guid.NewGuid().ToString("D");
         
-        private static RuleEntity CreateEntity(IRule rule)
-            => new RuleEntity
+        private static AssetGroupRuleEntity CreateEntity(IAssetGroupRule rule)
+            => new AssetGroupRuleEntity
             {
                 PartitionKey = GetPartitionKey(),
                 RowKey = GetRowKey(),
@@ -88,8 +88,8 @@ namespace Lykke.Service.ClientAssetRule.AzureRepositories
                 DeclinedAssetGroups = Join(rule.DeclinedAssetGroups)
             };
 
-        private static IRule FromEntity(RuleEntity entity)
-            => new Rule
+        private static IAssetGroupRule FromEntity(AssetGroupRuleEntity entity)
+            => new AssetGroupRule
             {
                 Id = entity.RowKey,
                 Name = entity.Name,

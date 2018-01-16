@@ -1,16 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
-namespace Lykke.Service.ClientAssetRule.Core.Domain
+namespace Lykke.Service.ClientAssetRule.Core.Domain.AssetGroup
 {
-    public class Rule : IRule
+    public class AssetGroupRule : IAssetGroupRule
     {
-        public Rule()
+        public AssetGroupRule()
         {
         }
 
-        public Rule(string id, string name, string regulationId, List<string> allowedAssetGroups, List<string> declinedAssetGroups)
+        public AssetGroupRule(string id, string name, string regulationId, List<string> allowedAssetGroups, List<string> declinedAssetGroups)
         {
             Id = id ?? throw new ArgumentNullException(nameof(id));
             Name = name ?? throw new ArgumentNullException(nameof(name));
