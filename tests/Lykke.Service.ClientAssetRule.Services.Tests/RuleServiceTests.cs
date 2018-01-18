@@ -16,21 +16,20 @@ namespace Lykke.Service.ClientAssetRule.Services.Tests
     [TestClass]
     public class RuleServiceTests
     {
-        private readonly Mock<ILog> _logMock;
         private readonly Mock<IAssetsService> _assetsServiceMock;
         private readonly Mock<IAssetGroupRuleRepository> _ruleRepositoryMock;
         private readonly AssetGroupRuleService _service;
 
         public RuleServiceTests()
         {
-            _logMock = new Mock<ILog>();
+            var logMock = new Mock<ILog>();
             _assetsServiceMock = new Mock<IAssetsService>();
             _ruleRepositoryMock = new Mock<IAssetGroupRuleRepository>();
 
             _service = new AssetGroupRuleService(
                 _ruleRepositoryMock.Object,
                 _assetsServiceMock.Object,
-                _logMock.Object);
+                logMock.Object);
         }
 
         [TestMethod]

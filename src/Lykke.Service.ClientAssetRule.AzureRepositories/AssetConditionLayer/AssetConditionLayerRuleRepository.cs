@@ -17,7 +17,7 @@ namespace Lykke.Service.ClientAssetRule.AzureRepositories.AssetConditionLayer
             _storage = storage;
         }
 
-        public async Task<IList<IAssetConditionLayerRule>> GetAsync()
+        public async Task<IReadOnlyList<IAssetConditionLayerRule>> GetAsync()
         {
             IEnumerable<AssetConditionLayerRuleEntity> entities
                 = await _storage.GetDataAsync(GetPartitionKey());

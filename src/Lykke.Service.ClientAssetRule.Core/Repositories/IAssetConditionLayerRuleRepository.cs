@@ -6,7 +6,7 @@ namespace Lykke.Service.ClientAssetRule.Core.Repositories
 {
     public interface IAssetConditionLayerRuleRepository
     {
-        Task<IList<IAssetConditionLayerRule>> GetAsync();
+        Task<IReadOnlyList<IAssetConditionLayerRule>> GetAsync();
         Task<IAssetConditionLayerRule> GetAsync(string regulationId);
         Task InsertAsync(IAssetConditionLayerRule assetConditionLayerRule);
         Task UpdateAsync(IAssetConditionLayerRule assetConditionLayerRule);

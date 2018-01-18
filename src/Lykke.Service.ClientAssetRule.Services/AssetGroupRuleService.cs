@@ -33,10 +33,10 @@ namespace Lykke.Service.ClientAssetRule.Services
             return _ruleRepository.GetAllAsync();
         }
 
-        public async Task SetAsync(string clientId, IEnumerable<string> regulations)
+        public async Task SetAsync(string clientId, IReadOnlyList<string> regulations)
         {
-            var allowed = new List<string>();
-            var declined = new List<string>();
+            var allowed = new HashSet<string>();
+            var declined = new HashSet<string>();
 
             foreach (string regulation in regulations)
             {
@@ -44,18 +44,13 @@ namespace Lykke.Service.ClientAssetRule.Services
 
                 foreach (IAssetGroupRule rule in rules)
                 {
-                    allowed.AddRange(rule.AllowedAssetGroups);
-                    declined.AddRange(rule.DeclinedAssetGroups);
+                    allowed.UnionWith(rule.AllowedAssetGroups);
+                    declined.UnionWith(rule.DeclinedAssetGroups);
                 }
             }
 
-            declined = declined.Distinct()
-                .ToList();
-
-            allowed = allowed.Distinct()
-                .Except(declined)
-                .ToList();
-
+            allowed.ExceptWith(declined);
+            
             try
             {
                 foreach (string groupName in declined)
