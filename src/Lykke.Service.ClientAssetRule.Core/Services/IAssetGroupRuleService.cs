@@ -7,7 +7,7 @@ namespace Lykke.Service.ClientAssetRule.Core.Services
     public interface IAssetGroupRuleService
     {
         Task<IEnumerable<IAssetGroupRule>> GetAllAsync();
-        Task SetAsync(string clientId, IEnumerable<string> regulations);
+        Task SetAsync(string clientId, IReadOnlyList<string> regulations);
         Task<IAssetGroupRule> GetByIdAsync(string id);
         Task InsertAsync(IAssetGroupRule rule);
         Task UpdateAsync(IAssetGroupRule rule);

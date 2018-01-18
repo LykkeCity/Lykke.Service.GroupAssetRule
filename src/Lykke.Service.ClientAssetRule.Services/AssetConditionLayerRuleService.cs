@@ -28,7 +28,7 @@ namespace Lykke.Service.ClientAssetRule.Services
             _log = log;
         }
 
-        public async Task<IEnumerable<IAssetConditionLayerRule>> GetAsync()
+        public async Task<IReadOnlyList<IAssetConditionLayerRule>> GetAsync()
         {
             return await _assetConditionLayerRuleRepository.GetAsync();
         }
@@ -38,21 +38,20 @@ namespace Lykke.Service.ClientAssetRule.Services
             return await _assetConditionLayerRuleRepository.GetAsync(regulationId);
         }
 
-        public async Task SetAsync(string clientId, IEnumerable<string> regulations)
+        public async Task SetAsync(string clientId, IReadOnlyList<string> regulations)
         {
-            IList<IAssetConditionLayerRule> rules = await _assetConditionLayerRuleRepository.GetAsync();
+            IReadOnlyList<IAssetConditionLayerRule> rules = await _assetConditionLayerRuleRepository.GetAsync();
 
-            List<string> allowed = rules
+            HashSet<string> allowed = rules
                 .Where(o => regulations.Contains(o.RegulationId))
                 .SelectMany(o => o.Layers)
-                .Distinct()
-                .ToList();
+                .ToHashSet();
 
-            List<string> declined = rules
+            HashSet<string> declined = rules
                 .SelectMany(o => o.Layers)
-                .Distinct()
-                .Except(allowed)
-                .ToList();
+                .ToHashSet();
+            
+            declined.ExceptWith(allowed);
 
             try
             {

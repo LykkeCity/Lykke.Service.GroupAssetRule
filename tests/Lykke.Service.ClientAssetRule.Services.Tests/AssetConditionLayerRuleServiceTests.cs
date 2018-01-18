@@ -16,21 +16,20 @@ namespace Lykke.Service.ClientAssetRule.Services.Tests
     [TestClass]
     public class AssetConditionLayerRuleServiceTests
     {
-        private readonly Mock<ILog> _logMock;
         private readonly Mock<IAssetsService> _assetsServiceMock;
         private readonly Mock<IAssetConditionLayerRuleRepository> _assetConditionLayerRuleRepositoryMock;
         private readonly AssetConditionLayerRuleService _service;
 
         public AssetConditionLayerRuleServiceTests()
         {
-            _logMock = new Mock<ILog>();
+            var logMock = new Mock<ILog>();
             _assetsServiceMock = new Mock<IAssetsService>();
             _assetConditionLayerRuleRepositoryMock = new Mock<IAssetConditionLayerRuleRepository>();
 
             _service = new AssetConditionLayerRuleService(
                 _assetConditionLayerRuleRepositoryMock.Object,
                 _assetsServiceMock.Object,
-                _logMock.Object);
+                logMock.Object);
         }
 
         [TestMethod]
@@ -57,7 +56,7 @@ namespace Lykke.Service.ClientAssetRule.Services.Tests
             };
 
             _assetConditionLayerRuleRepositoryMock.Setup(o => o.GetAsync())
-                .Returns(Task.FromResult((IList<IAssetConditionLayerRule>) assetConditionLayerRules));
+                .Returns(Task.FromResult((IReadOnlyList<IAssetConditionLayerRule>) assetConditionLayerRules));
 
             _assetsServiceMock.Setup(o => o.AssetConditionAddLayerToClientWithHttpMessagesAsync(It.IsAny<string>(),
                     It.IsAny<string>(), It.IsAny<Dictionary<string, List<string>>>(), It.IsAny<CancellationToken>()))
@@ -106,7 +105,7 @@ namespace Lykke.Service.ClientAssetRule.Services.Tests
             var removedLayers = new List<string>();
 
             _assetConditionLayerRuleRepositoryMock.Setup(o => o.GetAsync())
-                .Returns(Task.FromResult((IList<IAssetConditionLayerRule>)assetConditionLayerRules));
+                .Returns(Task.FromResult((IReadOnlyList<IAssetConditionLayerRule>)assetConditionLayerRules));
 
             _assetsServiceMock.Setup(o => o.AssetConditionAddLayerToClientWithHttpMessagesAsync(It.IsAny<string>(),
                     It.IsAny<string>(), It.IsAny<Dictionary<string, List<string>>>(), It.IsAny<CancellationToken>()))

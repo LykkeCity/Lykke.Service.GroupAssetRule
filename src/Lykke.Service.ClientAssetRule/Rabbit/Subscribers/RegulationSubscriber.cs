@@ -67,7 +67,7 @@ namespace Lykke.Service.ClientAssetRule.Rabbit.Subscribers
         {
             try
             {
-                IList<string> regulations = message.Regulations
+                List<string> regulations = message.Regulations
                     .Select(o => o.RegulationId)
                     .ToList();
 
