@@ -1,19 +1,15 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
     <AssemblyName>Lykke.Service.ClientAssetRule.Services</AssemblyName>
     <RootNamespace>Lykke.Service.ClientAssetRule.Services</RootNamespace>
     <Version>1.0.0</Version>
   </PropertyGroup>
-
   <ItemGroup>
-    <PackageReference Include="Lykke.Common" Version="4.2.0" />
+    <PackageReference Include="Lykke.Common" Version="4.4.2" />
     <PackageReference Include="Lykke.Service.Assets.Client" Version="2.1.0.125" />
   </ItemGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\Lykke.Service.ClientAssetRule.Core\Lykke.Service.ClientAssetRule.Core.csproj" />
   </ItemGroup>
-
 </Project>
