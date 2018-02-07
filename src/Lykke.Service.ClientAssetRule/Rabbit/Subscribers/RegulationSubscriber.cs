@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Autofac;
 using Common;
@@ -6,27 +7,29 @@ using Common.Log;
 using Lykke.RabbitMqBroker;
 using Lykke.RabbitMqBroker.Subscriber;
 using System.Threading.Tasks;
-using Lykke.Service.Assets.Client;
-using Lykke.Service.ClientAssetRule.Core.Domain;
 using Lykke.Service.ClientAssetRule.Core.Services;
-using Lykke.Service.ClientAssetRule.Core.Settings.ServiceSettings;
+using Lykke.Service.ClientAssetRule.Settings.ServiceSettings.Rabbit;
 using Lykke.Service.ClientAssetRule.Rabbit.Messages;
 
 namespace Lykke.Service.ClientAssetRule.Rabbit.Subscribers
 {
     public class RegulationSubscriber : IStartable, IStopable
     {
-        private readonly ILog _log;
-        private readonly IRuleService _ruleService;
-        private readonly IAssetsService _assetsService;
+        private readonly IAssetConditionLayerRuleService _assetConditionLayerRuleService;
+        private readonly IAssetGroupRuleService _ruleService;
         private readonly RegulationQueue _settings;
+        private readonly ILog _log;
         private RabbitMqSubscriber<RegulationMessage> _subscriber;
 
-        public RegulationSubscriber(ILog log, IRuleService ruleService, IAssetsService assetsService, RegulationQueue settings)
+        public RegulationSubscriber(
+            IAssetConditionLayerRuleService assetConditionLayerRuleService,
+            IAssetGroupRuleService ruleService,
+            RegulationQueue settings,
+            ILog log)
         {
+            _assetConditionLayerRuleService = assetConditionLayerRuleService;
             _log = log;
             _ruleService = ruleService;
-            _assetsService = assetsService;
             _settings = settings;
         }
 
@@ -64,29 +67,24 @@ namespace Lykke.Service.ClientAssetRule.Rabbit.Subscribers
         {
             try
             {
-                var clientRegulations = message.Regulations
-                    .Select(o => new ClientRegulation
-                    {
-                        RegulationId = o.RegulationId,
-                        Active = o.Active,
-                        Kyc = o.Kyc
-                    });
+                List<string> regulations = message.Regulations
+                    .Select(o => o.RegulationId)
+                    .ToList();
 
-                IAssetGroups assetGroups = await _ruleService.GetAssetGroupsAsync(clientRegulations);
-
-                foreach (string assetGroup in assetGroups.Declined)
-                    await _assetsService.AssetGroupRemoveClientAsync(message.ClientId, assetGroup);
-
-                foreach (string assetGroup in assetGroups.Allowed)
-                    await _assetsService.AssetGroupAddOrReplaceClientAsync(message.ClientId, assetGroup);
+                await _assetConditionLayerRuleService.SetAsync(message.ClientId, regulations);
 
                 await _log.WriteInfoAsync(nameof(RegulationSubscriber), nameof(ProcessMessageAsync),
-                    $"Client asset groups updated. {nameof(message)}: {message.ToJson()}. {nameof(assetGroups)}: {assetGroups.ToJson()}.");
+                    message.ToJson(), "Client asset conditions layers updated");
+
+                await _ruleService.SetAsync(message.ClientId, regulations);
+
+                await _log.WriteInfoAsync(nameof(RegulationSubscriber), nameof(ProcessMessageAsync),
+                    message.ToJson(), "Client asset groups updated");
             }
             catch (Exception exception)
             {
-                await _log.WriteWarningAsync(nameof(RegulationSubscriber), nameof(ProcessMessageAsync),
-                    $"{exception.Message}. {nameof(message)}: {message.ToJson()}.");
+                await _log.WriteErrorAsync(nameof(RegulationSubscriber), nameof(ProcessMessageAsync),
+                    message.ToJson(), exception);
                 throw;
             }
         }
