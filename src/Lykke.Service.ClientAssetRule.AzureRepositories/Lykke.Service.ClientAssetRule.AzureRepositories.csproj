@@ -1,19 +1,15 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
     <AssemblyName>Lykke.Service.ClientAssetRule.AzureRepositories</AssemblyName>
     <RootNamespace>Lykke.Service.ClientAssetRule.AzureRepositories</RootNamespace>
     <Version>1.0.0</Version>
   </PropertyGroup>
-
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="6.2.2" />
-    <PackageReference Include="Lykke.AzureStorage" Version="4.1.0" />
+    <PackageReference Include="Lykke.AzureStorage" Version="5.0.1" />
   </ItemGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\Lykke.Service.ClientAssetRule.Core\Lykke.Service.ClientAssetRule.Core.csproj" />
   </ItemGroup>
-
 </Project>
