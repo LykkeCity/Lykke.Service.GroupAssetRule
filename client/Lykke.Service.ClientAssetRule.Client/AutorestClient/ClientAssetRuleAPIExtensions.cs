@@ -18,6 +18,300 @@ namespace Lykke.Service.ClientAssetRule.Client.AutorestClient
     public static partial class ClientAssetRuleAPIExtensions
     {
             /// <summary>
+            /// Returns all asset condition layer rules.
+            /// </summary>
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            public static IList<AssetConditionLayerRuleModel> AssetConditionLayerRuleGet(this IClientAssetRuleAPI operations)
+            {
+                return operations.AssetConditionLayerRuleGetAsync().GetAwaiter().GetResult();
+            }
+
+            /// <summary>
+            /// Returns all asset condition layer rules.
+            /// </summary>
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='cancellationToken'>
+            /// The cancellation token.
+            /// </param>
+            public static async Task<IList<AssetConditionLayerRuleModel>> AssetConditionLayerRuleGetAsync(this IClientAssetRuleAPI operations, CancellationToken cancellationToken = default(CancellationToken))
+            {
+                using (var _result = await operations.AssetConditionLayerRuleGetWithHttpMessagesAsync(null, cancellationToken).ConfigureAwait(false))
+                {
+                    return _result.Body;
+                }
+            }
+
+            /// <summary>
+            /// Updates the asset condition layer rule.
+            /// </summary>
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='model'>
+            /// The model that describe an asset condition layer rule.
+            /// </param>
+            public static ErrorResponse AssetConditionLayerRuleUpdate(this IClientAssetRuleAPI operations, AssetConditionLayerRuleModel model = default(AssetConditionLayerRuleModel))
+            {
+                return operations.AssetConditionLayerRuleUpdateAsync(model).GetAwaiter().GetResult();
+            }
+
+            /// <summary>
+            /// Updates the asset condition layer rule.
+            /// </summary>
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='model'>
+            /// The model that describe an asset condition layer rule.
+            /// </param>
+            /// <param name='cancellationToken'>
+            /// The cancellation token.
+            /// </param>
+            public static async Task<ErrorResponse> AssetConditionLayerRuleUpdateAsync(this IClientAssetRuleAPI operations, AssetConditionLayerRuleModel model = default(AssetConditionLayerRuleModel), CancellationToken cancellationToken = default(CancellationToken))
+            {
+                using (var _result = await operations.AssetConditionLayerRuleUpdateWithHttpMessagesAsync(model, null, cancellationToken).ConfigureAwait(false))
+                {
+                    return _result.Body;
+                }
+            }
+
+            /// <summary>
+            /// Adds the asset condition layer rule.
+            /// </summary>
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='model'>
+            /// The model that describe an asset condition layer rule.
+            /// </param>
+            public static ErrorResponse AssetConditionLayerRuleAdd(this IClientAssetRuleAPI operations, AssetConditionLayerRuleModel model = default(AssetConditionLayerRuleModel))
+            {
+                return operations.AssetConditionLayerRuleAddAsync(model).GetAwaiter().GetResult();
+            }
+
+            /// <summary>
+            /// Adds the asset condition layer rule.
+            /// </summary>
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='model'>
+            /// The model that describe an asset condition layer rule.
+            /// </param>
+            /// <param name='cancellationToken'>
+            /// The cancellation token.
+            /// </param>
+            public static async Task<ErrorResponse> AssetConditionLayerRuleAddAsync(this IClientAssetRuleAPI operations, AssetConditionLayerRuleModel model = default(AssetConditionLayerRuleModel), CancellationToken cancellationToken = default(CancellationToken))
+            {
+                using (var _result = await operations.AssetConditionLayerRuleAddWithHttpMessagesAsync(model, null, cancellationToken).ConfigureAwait(false))
+                {
+                    return _result.Body;
+                }
+            }
+
+            /// <summary>
+            /// Deletes the asset condition layer rule for regulation.
+            /// </summary>
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='regulationId'>
+            /// The regulation.
+            /// </param>
+            public static ErrorResponse AssetConditionLayerRuleDelete(this IClientAssetRuleAPI operations, string regulationId)
+            {
+                return operations.AssetConditionLayerRuleDeleteAsync(regulationId).GetAwaiter().GetResult();
+            }
+
+            /// <summary>
+            /// Deletes the asset condition layer rule for regulation.
+            /// </summary>
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='regulationId'>
+            /// The regulation.
+            /// </param>
+            /// <param name='cancellationToken'>
+            /// The cancellation token.
+            /// </param>
+            public static async Task<ErrorResponse> AssetConditionLayerRuleDeleteAsync(this IClientAssetRuleAPI operations, string regulationId, CancellationToken cancellationToken = default(CancellationToken))
+            {
+                using (var _result = await operations.AssetConditionLayerRuleDeleteWithHttpMessagesAsync(regulationId, null, cancellationToken).ConfigureAwait(false))
+                {
+                    return _result.Body;
+                }
+            }
+
+            /// <summary>
+            /// Returns all asset group rules.
+            /// </summary>
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            public static IList<AssetGroupRuleModel> AssetGroupRuleGet(this IClientAssetRuleAPI operations)
+            {
+                return operations.AssetGroupRuleGetAsync().GetAwaiter().GetResult();
+            }
+
+            /// <summary>
+            /// Returns all asset group rules.
+            /// </summary>
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='cancellationToken'>
+            /// The cancellation token.
+            /// </param>
+            public static async Task<IList<AssetGroupRuleModel>> AssetGroupRuleGetAsync(this IClientAssetRuleAPI operations, CancellationToken cancellationToken = default(CancellationToken))
+            {
+                using (var _result = await operations.AssetGroupRuleGetWithHttpMessagesAsync(null, cancellationToken).ConfigureAwait(false))
+                {
+                    return _result.Body;
+                }
+            }
+
+            /// <summary>
+            /// Updates the asset group rule.
+            /// </summary>
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='model'>
+            /// The model that describe an asset group rule.
+            /// </param>
+            public static ErrorResponse AssetGroupRuleUpdate(this IClientAssetRuleAPI operations, AssetGroupRuleModel model = default(AssetGroupRuleModel))
+            {
+                return operations.AssetGroupRuleUpdateAsync(model).GetAwaiter().GetResult();
+            }
+
+            /// <summary>
+            /// Updates the asset group rule.
+            /// </summary>
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='model'>
+            /// The model that describe an asset group rule.
+            /// </param>
+            /// <param name='cancellationToken'>
+            /// The cancellation token.
+            /// </param>
+            public static async Task<ErrorResponse> AssetGroupRuleUpdateAsync(this IClientAssetRuleAPI operations, AssetGroupRuleModel model = default(AssetGroupRuleModel), CancellationToken cancellationToken = default(CancellationToken))
+            {
+                using (var _result = await operations.AssetGroupRuleUpdateWithHttpMessagesAsync(model, null, cancellationToken).ConfigureAwait(false))
+                {
+                    return _result.Body;
+                }
+            }
+
+            /// <summary>
+            /// Adds the asset group rule.
+            /// </summary>
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='model'>
+            /// The model that describe an asset group rule.
+            /// </param>
+            public static ErrorResponse AssetGroupRuleAdd(this IClientAssetRuleAPI operations, NewAssetGroupRuleModel model = default(NewAssetGroupRuleModel))
+            {
+                return operations.AssetGroupRuleAddAsync(model).GetAwaiter().GetResult();
+            }
+
+            /// <summary>
+            /// Adds the asset group rule.
+            /// </summary>
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='model'>
+            /// The model that describe an asset group rule.
+            /// </param>
+            /// <param name='cancellationToken'>
+            /// The cancellation token.
+            /// </param>
+            public static async Task<ErrorResponse> AssetGroupRuleAddAsync(this IClientAssetRuleAPI operations, NewAssetGroupRuleModel model = default(NewAssetGroupRuleModel), CancellationToken cancellationToken = default(CancellationToken))
+            {
+                using (var _result = await operations.AssetGroupRuleAddWithHttpMessagesAsync(model, null, cancellationToken).ConfigureAwait(false))
+                {
+                    return _result.Body;
+                }
+            }
+
+            /// <summary>
+            /// Returns an asset group rule by specified id.
+            /// </summary>
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='ruleId'>
+            /// The asset group rule id.
+            /// </param>
+            public static object AssetGroupRuleGetById(this IClientAssetRuleAPI operations, string ruleId)
+            {
+                return operations.AssetGroupRuleGetByIdAsync(ruleId).GetAwaiter().GetResult();
+            }
+
+            /// <summary>
+            /// Returns an asset group rule by specified id.
+            /// </summary>
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='ruleId'>
+            /// The asset group rule id.
+            /// </param>
+            /// <param name='cancellationToken'>
+            /// The cancellation token.
+            /// </param>
+            public static async Task<object> AssetGroupRuleGetByIdAsync(this IClientAssetRuleAPI operations, string ruleId, CancellationToken cancellationToken = default(CancellationToken))
+            {
+                using (var _result = await operations.AssetGroupRuleGetByIdWithHttpMessagesAsync(ruleId, null, cancellationToken).ConfigureAwait(false))
+                {
+                    return _result.Body;
+                }
+            }
+
+            /// <summary>
+            /// Deletes the asset group rule.
+            /// </summary>
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='ruleId'>
+            /// The asset group rule id.
+            /// </param>
+            public static ErrorResponse AssetGroupRuleDelete(this IClientAssetRuleAPI operations, string ruleId)
+            {
+                return operations.AssetGroupRuleDeleteAsync(ruleId).GetAwaiter().GetResult();
+            }
+
+            /// <summary>
+            /// Deletes the asset group rule.
+            /// </summary>
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='ruleId'>
+            /// The asset group rule id.
+            /// </param>
+            /// <param name='cancellationToken'>
+            /// The cancellation token.
+            /// </param>
+            public static async Task<ErrorResponse> AssetGroupRuleDeleteAsync(this IClientAssetRuleAPI operations, string ruleId, CancellationToken cancellationToken = default(CancellationToken))
+            {
+                using (var _result = await operations.AssetGroupRuleDeleteWithHttpMessagesAsync(ruleId, null, cancellationToken).ConfigureAwait(false))
+                {
+                    return _result.Body;
+                }
+            }
+
+            /// <summary>
             /// Checks service is alive
             /// </summary>
             /// <param name='operations'>
@@ -40,170 +334,6 @@ namespace Lykke.Service.ClientAssetRule.Client.AutorestClient
             public static async Task<object> IsAliveAsync(this IClientAssetRuleAPI operations, CancellationToken cancellationToken = default(CancellationToken))
             {
                 using (var _result = await operations.IsAliveWithHttpMessagesAsync(null, cancellationToken).ConfigureAwait(false))
-                {
-                    return _result.Body;
-                }
-            }
-
-            /// <summary>
-            /// Returns all client asset ruls.
-            /// </summary>
-            /// <param name='operations'>
-            /// The operations group for this extension method.
-            /// </param>
-            public static IList<RuleModel> GetRules(this IClientAssetRuleAPI operations)
-            {
-                return operations.GetRulesAsync().GetAwaiter().GetResult();
-            }
-
-            /// <summary>
-            /// Returns all client asset ruls.
-            /// </summary>
-            /// <param name='operations'>
-            /// The operations group for this extension method.
-            /// </param>
-            /// <param name='cancellationToken'>
-            /// The cancellation token.
-            /// </param>
-            public static async Task<IList<RuleModel>> GetRulesAsync(this IClientAssetRuleAPI operations, CancellationToken cancellationToken = default(CancellationToken))
-            {
-                using (var _result = await operations.GetRulesWithHttpMessagesAsync(null, cancellationToken).ConfigureAwait(false))
-                {
-                    return _result.Body;
-                }
-            }
-
-            /// <summary>
-            /// Updates the rule.
-            /// </summary>
-            /// <param name='operations'>
-            /// The operations group for this extension method.
-            /// </param>
-            /// <param name='model'>
-            /// The model what describe a rule.
-            /// </param>
-            public static ErrorResponse UpdateRule(this IClientAssetRuleAPI operations, RuleModel model = default(RuleModel))
-            {
-                return operations.UpdateRuleAsync(model).GetAwaiter().GetResult();
-            }
-
-            /// <summary>
-            /// Updates the rule.
-            /// </summary>
-            /// <param name='operations'>
-            /// The operations group for this extension method.
-            /// </param>
-            /// <param name='model'>
-            /// The model what describe a rule.
-            /// </param>
-            /// <param name='cancellationToken'>
-            /// The cancellation token.
-            /// </param>
-            public static async Task<ErrorResponse> UpdateRuleAsync(this IClientAssetRuleAPI operations, RuleModel model = default(RuleModel), CancellationToken cancellationToken = default(CancellationToken))
-            {
-                using (var _result = await operations.UpdateRuleWithHttpMessagesAsync(model, null, cancellationToken).ConfigureAwait(false))
-                {
-                    return _result.Body;
-                }
-            }
-
-            /// <summary>
-            /// Adds the rule.
-            /// </summary>
-            /// <param name='operations'>
-            /// The operations group for this extension method.
-            /// </param>
-            /// <param name='model'>
-            /// The model what describe a rule.
-            /// </param>
-            public static ErrorResponse AddRule(this IClientAssetRuleAPI operations, NewRuleModel model = default(NewRuleModel))
-            {
-                return operations.AddRuleAsync(model).GetAwaiter().GetResult();
-            }
-
-            /// <summary>
-            /// Adds the rule.
-            /// </summary>
-            /// <param name='operations'>
-            /// The operations group for this extension method.
-            /// </param>
-            /// <param name='model'>
-            /// The model what describe a rule.
-            /// </param>
-            /// <param name='cancellationToken'>
-            /// The cancellation token.
-            /// </param>
-            public static async Task<ErrorResponse> AddRuleAsync(this IClientAssetRuleAPI operations, NewRuleModel model = default(NewRuleModel), CancellationToken cancellationToken = default(CancellationToken))
-            {
-                using (var _result = await operations.AddRuleWithHttpMessagesAsync(model, null, cancellationToken).ConfigureAwait(false))
-                {
-                    return _result.Body;
-                }
-            }
-
-            /// <summary>
-            /// Returns a client asset rule by specified id.
-            /// </summary>
-            /// <param name='operations'>
-            /// The operations group for this extension method.
-            /// </param>
-            /// <param name='ruleId'>
-            /// The rule id.
-            /// </param>
-            public static object GetRuleById(this IClientAssetRuleAPI operations, string ruleId)
-            {
-                return operations.GetRuleByIdAsync(ruleId).GetAwaiter().GetResult();
-            }
-
-            /// <summary>
-            /// Returns a client asset rule by specified id.
-            /// </summary>
-            /// <param name='operations'>
-            /// The operations group for this extension method.
-            /// </param>
-            /// <param name='ruleId'>
-            /// The rule id.
-            /// </param>
-            /// <param name='cancellationToken'>
-            /// The cancellation token.
-            /// </param>
-            public static async Task<object> GetRuleByIdAsync(this IClientAssetRuleAPI operations, string ruleId, CancellationToken cancellationToken = default(CancellationToken))
-            {
-                using (var _result = await operations.GetRuleByIdWithHttpMessagesAsync(ruleId, null, cancellationToken).ConfigureAwait(false))
-                {
-                    return _result.Body;
-                }
-            }
-
-            /// <summary>
-            /// Deletes the rule by specified id.
-            /// </summary>
-            /// <param name='operations'>
-            /// The operations group for this extension method.
-            /// </param>
-            /// <param name='ruleId'>
-            /// The id of rule to delete.
-            /// </param>
-            public static ErrorResponse DeleteRule(this IClientAssetRuleAPI operations, string ruleId)
-            {
-                return operations.DeleteRuleAsync(ruleId).GetAwaiter().GetResult();
-            }
-
-            /// <summary>
-            /// Deletes the rule by specified id.
-            /// </summary>
-            /// <param name='operations'>
-            /// The operations group for this extension method.
-            /// </param>
-            /// <param name='ruleId'>
-            /// The id of rule to delete.
-            /// </param>
-            /// <param name='cancellationToken'>
-            /// The cancellation token.
-            /// </param>
-            public static async Task<ErrorResponse> DeleteRuleAsync(this IClientAssetRuleAPI operations, string ruleId, CancellationToken cancellationToken = default(CancellationToken))
-            {
-                using (var _result = await operations.DeleteRuleWithHttpMessagesAsync(ruleId, null, cancellationToken).ConfigureAwait(false))
                 {
                     return _result.Body;
                 }

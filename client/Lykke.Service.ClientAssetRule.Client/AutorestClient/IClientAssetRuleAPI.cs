@@ -35,6 +35,126 @@ namespace Lykke.Service.ClientAssetRule.Client.AutorestClient
 
 
         /// <summary>
+        /// Returns all asset condition layer rules.
+        /// </summary>
+        /// <param name='customHeaders'>
+        /// The headers that will be added to request.
+        /// </param>
+        /// <param name='cancellationToken'>
+        /// The cancellation token.
+        /// </param>
+        Task<HttpOperationResponse<IList<AssetConditionLayerRuleModel>>> AssetConditionLayerRuleGetWithHttpMessagesAsync(Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
+
+        /// <summary>
+        /// Updates the asset condition layer rule.
+        /// </summary>
+        /// <param name='model'>
+        /// The model that describe an asset condition layer rule.
+        /// </param>
+        /// <param name='customHeaders'>
+        /// The headers that will be added to request.
+        /// </param>
+        /// <param name='cancellationToken'>
+        /// The cancellation token.
+        /// </param>
+        Task<HttpOperationResponse<ErrorResponse>> AssetConditionLayerRuleUpdateWithHttpMessagesAsync(AssetConditionLayerRuleModel model = default(AssetConditionLayerRuleModel), Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
+
+        /// <summary>
+        /// Adds the asset condition layer rule.
+        /// </summary>
+        /// <param name='model'>
+        /// The model that describe an asset condition layer rule.
+        /// </param>
+        /// <param name='customHeaders'>
+        /// The headers that will be added to request.
+        /// </param>
+        /// <param name='cancellationToken'>
+        /// The cancellation token.
+        /// </param>
+        Task<HttpOperationResponse<ErrorResponse>> AssetConditionLayerRuleAddWithHttpMessagesAsync(AssetConditionLayerRuleModel model = default(AssetConditionLayerRuleModel), Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
+
+        /// <summary>
+        /// Deletes the asset condition layer rule for regulation.
+        /// </summary>
+        /// <param name='regulationId'>
+        /// The regulation.
+        /// </param>
+        /// <param name='customHeaders'>
+        /// The headers that will be added to request.
+        /// </param>
+        /// <param name='cancellationToken'>
+        /// The cancellation token.
+        /// </param>
+        Task<HttpOperationResponse<ErrorResponse>> AssetConditionLayerRuleDeleteWithHttpMessagesAsync(string regulationId, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
+
+        /// <summary>
+        /// Returns all asset group rules.
+        /// </summary>
+        /// <param name='customHeaders'>
+        /// The headers that will be added to request.
+        /// </param>
+        /// <param name='cancellationToken'>
+        /// The cancellation token.
+        /// </param>
+        Task<HttpOperationResponse<IList<AssetGroupRuleModel>>> AssetGroupRuleGetWithHttpMessagesAsync(Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
+
+        /// <summary>
+        /// Updates the asset group rule.
+        /// </summary>
+        /// <param name='model'>
+        /// The model that describe an asset group rule.
+        /// </param>
+        /// <param name='customHeaders'>
+        /// The headers that will be added to request.
+        /// </param>
+        /// <param name='cancellationToken'>
+        /// The cancellation token.
+        /// </param>
+        Task<HttpOperationResponse<ErrorResponse>> AssetGroupRuleUpdateWithHttpMessagesAsync(AssetGroupRuleModel model = default(AssetGroupRuleModel), Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
+
+        /// <summary>
+        /// Adds the asset group rule.
+        /// </summary>
+        /// <param name='model'>
+        /// The model that describe an asset group rule.
+        /// </param>
+        /// <param name='customHeaders'>
+        /// The headers that will be added to request.
+        /// </param>
+        /// <param name='cancellationToken'>
+        /// The cancellation token.
+        /// </param>
+        Task<HttpOperationResponse<ErrorResponse>> AssetGroupRuleAddWithHttpMessagesAsync(NewAssetGroupRuleModel model = default(NewAssetGroupRuleModel), Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
+
+        /// <summary>
+        /// Returns an asset group rule by specified id.
+        /// </summary>
+        /// <param name='ruleId'>
+        /// The asset group rule id.
+        /// </param>
+        /// <param name='customHeaders'>
+        /// The headers that will be added to request.
+        /// </param>
+        /// <param name='cancellationToken'>
+        /// The cancellation token.
+        /// </param>
+        Task<HttpOperationResponse<object>> AssetGroupRuleGetByIdWithHttpMessagesAsync(string ruleId, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
+
+        /// <summary>
+        /// Deletes the asset group rule.
+        /// </summary>
+        /// <param name='ruleId'>
+        /// The asset group rule id.
+        /// </param>
+        /// <param name='customHeaders'>
+        /// The headers that will be added to request.
+        /// </param>
+        /// <param name='cancellationToken'>
+        /// The cancellation token.
+        /// </param>
+        Task<HttpOperationResponse<ErrorResponse>> AssetGroupRuleDeleteWithHttpMessagesAsync(string ruleId, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
+
+        /// <summary>
         /// Checks service is alive
         /// </summary>
         /// <param name='customHeaders'>
@@ -44,73 +164,6 @@ namespace Lykke.Service.ClientAssetRule.Client.AutorestClient
         /// The cancellation token.
         /// </param>
         Task<HttpOperationResponse<object>> IsAliveWithHttpMessagesAsync(Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
-
-        /// <summary>
-        /// Returns all client asset ruls.
-        /// </summary>
-        /// <param name='customHeaders'>
-        /// The headers that will be added to request.
-        /// </param>
-        /// <param name='cancellationToken'>
-        /// The cancellation token.
-        /// </param>
-        Task<HttpOperationResponse<IList<RuleModel>>> GetRulesWithHttpMessagesAsync(Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
-
-        /// <summary>
-        /// Updates the rule.
-        /// </summary>
-        /// <param name='model'>
-        /// The model what describe a rule.
-        /// </param>
-        /// <param name='customHeaders'>
-        /// The headers that will be added to request.
-        /// </param>
-        /// <param name='cancellationToken'>
-        /// The cancellation token.
-        /// </param>
-        Task<HttpOperationResponse<ErrorResponse>> UpdateRuleWithHttpMessagesAsync(RuleModel model = default(RuleModel), Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
-
-        /// <summary>
-        /// Adds the rule.
-        /// </summary>
-        /// <param name='model'>
-        /// The model what describe a rule.
-        /// </param>
-        /// <param name='customHeaders'>
-        /// The headers that will be added to request.
-        /// </param>
-        /// <param name='cancellationToken'>
-        /// The cancellation token.
-        /// </param>
-        Task<HttpOperationResponse<ErrorResponse>> AddRuleWithHttpMessagesAsync(NewRuleModel model = default(NewRuleModel), Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
-
-        /// <summary>
-        /// Returns a client asset rule by specified id.
-        /// </summary>
-        /// <param name='ruleId'>
-        /// The rule id.
-        /// </param>
-        /// <param name='customHeaders'>
-        /// The headers that will be added to request.
-        /// </param>
-        /// <param name='cancellationToken'>
-        /// The cancellation token.
-        /// </param>
-        Task<HttpOperationResponse<object>> GetRuleByIdWithHttpMessagesAsync(string ruleId, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
-
-        /// <summary>
-        /// Deletes the rule by specified id.
-        /// </summary>
-        /// <param name='ruleId'>
-        /// The id of rule to delete.
-        /// </param>
-        /// <param name='customHeaders'>
-        /// The headers that will be added to request.
-        /// </param>
-        /// <param name='cancellationToken'>
-        /// The cancellation token.
-        /// </param>
-        Task<HttpOperationResponse<ErrorResponse>> DeleteRuleWithHttpMessagesAsync(string ruleId, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
 
     }
 }
